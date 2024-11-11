@@ -1,0 +1,127 @@
+/* General styles */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.container {
+    padding: 10px 20px;
+}
+
+/* Video container */
+#localVideo {
+    max-width: 100%;
+    max-height: 420px;
+    border-radius: 10px;
+    background-color: #000;
+}
+
+/* Talk button */
+#talkButton {
+    padding: 8px 16px;
+    font-size: 1rem;
+}
+
+/* Status */
+#status {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* Spinner */
+#spinner {
+    margin-top: 10px;
+}
+
+/* Response Image */
+#responseImage {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 10px;
+}
+
+/* Chat container */
+#chat-container {
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.user-message, .bot-message {
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.user-message {
+    background-color: #d1e7dd;
+    text-align: right;
+}
+
+.bot-message {
+    background-color: #f8d7da;
+}
+
+.timestamp {
+    display: block;
+    font-size: 0.7rem;
+    margin-top: 3px;
+}
+
+/* Input container */
+.input-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.input-group {
+    width: 100%;
+    max-width: 600px;
+}
+
+#sendText {
+    font-size: 0.9rem;
+}
+
+#sendButton {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 576px) {
+    #chat-container {
+        height: 150px;
+    }
+
+    #talkButton {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+
+    .user-message, .bot-message {
+        font-size: 0.85rem;
+    }
+
+    #status {
+        font-size: 0.85rem;
+    }
+
+    #sendText, #sendButton {
+        font-size: 0.85rem;
+        padding: 6px;
+    }
+}
