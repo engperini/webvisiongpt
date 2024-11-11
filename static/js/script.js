@@ -19,7 +19,7 @@ let playAudioResponse = true;
 // });
 
 //const socket = io('192.168.0.21:5000');
-const socket = io('https://engperini.ddns.net:5505');
+const socket = io('https://engperini.ddns.net:5505/api/data');
 
 socket.on('connect', () => {
     console.log('Conectado ao servidor via Socket.IO');
