@@ -13,8 +13,8 @@ let isRecording = false;
 let playAudioResponse = true;
 
 // Conexão com o servidor via Socket.IO
- //const socket = io('http://engperini.ddns.net:5505/api/data', {
- const socket = io('wss://engperini.ddns.net:5505/api/data', {
+ const socket = io('http://engperini.ddns.net:5505', {
+ //const socket = io('wss://engperini.ddns.net:5505/api/data', {
      secure: true,
      rejectUnauthorized: false
  });
