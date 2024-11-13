@@ -14,13 +14,13 @@ let playAudioResponse = true;
 
 // Conexão com o servidor via Socket.IO
  //const socket = io('https://engperini.ddns.net:5505', {
- //const socket = io('wss://engperini.ddns.net:5505/api/data', {
-   //  secure: true,
-   //  rejectUnauthorized: false
- //});
+ const socket = io('wss://engperini.ddns.net:5505/api/data', {
+     secure: true,
+     rejectUnauthorized: false
+ });
 
 //const socket = io('192.168.0.21:5000');
-const socket = io('https://engperini.ddns.net:5505/api/data'); //works
+//const socket = io('https://engperini.ddns.net:5505/api/data'); //works
 
 socket.on('connect', () => {
     console.log('Conectado ao servidor via Socket.IO');
