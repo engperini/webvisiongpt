@@ -1,3 +1,4 @@
+//via client remoto
 const talkButton = document.getElementById('talkButton');
 const localVideo = document.getElementById('localVideo');
 const sendButton = document.getElementById('sendButton');
@@ -22,17 +23,17 @@ let playAudioResponse = true;
 
 
 socket.on('connect', () => {
-    console.log('Conectado ao servidor via Socket.IO');
-    status.textContent = 'Conectado ao servidor.';
+    console.log('Conectado ao servidor via Socket.IO via client remoto');
+    status.textContent = 'Conectado ao servidor via client remoto.';
 });
 
 socket.on('disconnect', () => {
-    console.log('Desconectado do servidor');
-    status.textContent = 'Desconectado do servidor.';
+    console.log('Desconectado do servidor via client remoto');
+    status.textContent = 'Desconectado do servidor via client remoto.';
 });
 
 socket.on('response', (data) => {
-    status.textContent = 'Resposta recebida do servidor.';
+    status.textContent = 'Resposta recebida do servidor via client remoto.';
     
     // Exibe a resposta do bot no chat
     console.log(data.text);
