@@ -169,7 +169,7 @@ const sendData = async (sendAudio) => {
 };
 
 function sendDataToServer(data) {
-    socket.emit('handle_process_data_ext', data);
+    socket.emit('handle_process_data', data);
 }
 
 function displayUserMessage(message) {
