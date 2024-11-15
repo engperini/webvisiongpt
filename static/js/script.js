@@ -20,12 +20,12 @@ const socket = io('https://engperini.ddns.net:5505/api/data', {
  });
 
 
-socket.on('connect_ext', () => {
+socket.on('connect', () => {
     console.log('Conectado ao servidor via Socket.IO via client remoto');
     status.textContent = 'Conectado ao servidor via client remoto.';
 });
 
-socket.on('disconnect_ext', () => {
+socket.on('disconnect', () => {
     console.log('Desconectado do servidor via client remoto'); 
     status.textContent = 'Desconectado do servidor via client remoto.';
 });
