@@ -26,7 +26,7 @@ socket.on('connect_ext', () => {
 });
 
 socket.on('disconnect_ext', () => {
-    console.log('Desconectado do servidor via client remoto');
+    console.log('Desconectado do servidor via client remoto'); 
     status.textContent = 'Desconectado do servidor via client remoto.';
 });
 
