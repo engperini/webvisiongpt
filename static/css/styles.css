@@ -8,51 +8,49 @@ body {
     min-height: 100vh;
     background-color: #f4f4f4;
     align-items: center; /* Centraliza horizontalmente */
+    overflow-x: hidden; /* Impede scroll horizontal */
 }
 
 /* Container principal */
 .container {
     padding: 10px 20px;
     width: 100%;
-    max-width: 680px; /* Limita a largura máxima em desktops */
+    max-width: 680px; /* Limita a largura máxima no desktop */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza os itens no container */
-    overflow-wrap: break-word; /* Garante quebra de conteúdo longo */
+    align-items: center;
+    box-sizing: border-box; /* Inclui padding na largura */
+    overflow-wrap: break-word; /* Quebra de palavras longas */
 }
 
 /* Video container */
 #localVideo {
-    width: 100%; /* Ocupa toda a largura do container */
-    max-width: 480px;
+    width: 100%;
     max-height: 420px;
     border-radius: 10px;
     background-color: #000;
-    object-fit: cover; /* Mantém a proporção do vídeo sem distorções */
-    margin-bottom: 15px; /* Espaço entre o vídeo e o próximo elemento */
+    object-fit: cover; /* Mantém proporção sem distorcer */
+    margin-bottom: 15px; /* Espaço abaixo do vídeo */
 }
 
 /* Chat container */
 #chat-container {
     width: 100%;
-    max-width: 680px;
     height: 480px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    overflow-y: auto;
+    overflow-y: auto; /* Permite scroll vertical */
     background-color: #ffffff;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Espaço entre as mensagens */
-    margin-bottom: 15px; /* Espaço entre o chat e o próximo elemento */
-    word-wrap: break-word; /* Quebra o texto longo */
-    overflow-wrap: break-word; /* Garante a quebra de palavras longas */
-    
+    gap: 10px; /* Espaço entre mensagens */
+    word-wrap: break-word; /* Quebra de palavras longas */
+    box-sizing: border-box;
 }
 
-/* Mensagem padrão */
+/* Mensagens */
 .message {
     display: flex;
     align-items: flex-start;
@@ -60,33 +58,28 @@ body {
     font-size: 0.9rem;
 }
 
-/* Mensagem do usuário */
 .user-message {
     align-self: flex-end; /* Alinha à direita */
     background-color: #d1e7dd;
     color: #0f5132;
     padding: 10px;
-    border-radius: 10px 10px 0 10px; /* Balão arredondado */
-    max-width: 70%; /* Limita a largura da mensagem */
+    border-radius: 10px 10px 0 10px;
+    max-width: 70%; /* Limita largura da mensagem */
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    word-wrap: break-word; /* Garante quebra de palavras longas */
-    overflow-wrap: break-word;
+    word-wrap: break-word; /* Quebra de palavras longas */
 }
 
-/* Mensagem do bot */
 .bot-message {
     align-self: flex-start; /* Alinha à esquerda */
     background-color: #f8d7da;
     color: #842029;
     padding: 10px;
-    border-radius: 10px 10px 10px 0; /* Balão arredondado */
-    max-width: 90%; /* Limita a largura da mensagem */
+    border-radius: 10px 10px 10px 0;
+    max-width: 90%; /* Limita largura da mensagem */
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    word-wrap: break-word; /* Garante quebra de palavras longas */
-    overflow-wrap: break-word;
+    word-wrap: break-word; /* Quebra de palavras longas */
 }
 
-/* Timestamp */
 .timestamp {
     font-size: 0.75rem;
     color: #6c757d;
@@ -94,7 +87,7 @@ body {
     display: block;
 }
 
-/* Talk button */
+/* Botão "Talk" */
 #talkButton {
     padding: 10px 20px;
     font-size: 1rem;
@@ -104,7 +97,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-bottom: 15px; /* Espaço abaixo do botão */
+    margin-bottom: 15px;
 }
 
 #talkButton:hover {
@@ -115,10 +108,10 @@ body {
 #status {
     font-size: 1rem;
     color: #6c757d;
-    margin-bottom: 10px; /* Espaço abaixo do status */
+    margin-bottom: 10px;
 }
 
-/* Response Image */
+/* Imagem de resposta */
 #responseImage {
     max-width: 100%;
     max-height: 250px;
@@ -127,7 +120,7 @@ body {
     display: block;
 }
 
-/* Input container */
+/* Input de texto */
 .input-container {
     display: flex;
     flex-direction: column;
@@ -140,7 +133,7 @@ body {
     width: 100%;
     max-width: 600px;
     display: flex;
-    gap: 10px; /* Espaço entre os inputs e o botão */
+    gap: 10px;
 }
 
 #sendText {
@@ -166,18 +159,26 @@ body {
     background-color: #218838;
 }
 
-/* Ajustes para dispositivos móveis */
+/* Estilos responsivos para dispositivos móveis */
 @media (max-width: 576px) {
     .container {
         padding: 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     #localVideo {
-        max-height: 200px;
+        width: 100vw; /* Garante que o vídeo ocupe toda a largura da viewport */
+        max-height: 200px; /* Altura reduzida para caber no mobile */
+        border-radius: 10px;
     }
 
     #chat-container {
-        height: 150px;
+        width: 100vw; /* Garante que o chat ocupe toda a largura da viewport */
+        height: 250px; /* Altura reduzida para telas menores */
+        border-radius: 10px;
+        box-sizing: border-box;
     }
 
     #talkButton {
@@ -199,7 +200,8 @@ body {
         padding: 8px 16px;
     }
 
-    .user-message, .bot-message {
+    .user-message,
+    .bot-message {
         font-size: 0.85rem;
     }
 
