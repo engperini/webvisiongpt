@@ -7,35 +7,115 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: #f4f4f4;
+    align-items: center; /* Centraliza horizontalmente */
 }
 
+/* Container principal */
 .container {
     padding: 10px 20px;
+    width: 100%;
+    max-width: 680px; /* Limita a largura máxima em desktops */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens no container */
+    overflow-wrap: break-word; /* Garante quebra de conteúdo longo */
 }
 
 /* Video container */
 #localVideo {
-    max-width: 100%;
+    width: 100%; /* Ocupa toda a largura do container */
+    max-width: 480px;
     max-height: 420px;
     border-radius: 10px;
     background-color: #000;
+    object-fit: cover; /* Mantém a proporção do vídeo sem distorções */
+    margin-bottom: 15px; /* Espaço entre o vídeo e o próximo elemento */
+}
+
+/* Chat container */
+#chat-container {
+    width: 100%;
+    max-width: 680px;
+    height: 480px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaço entre as mensagens */
+    margin-bottom: 15px; /* Espaço entre o chat e o próximo elemento */
+    word-wrap: break-word; /* Quebra o texto longo */
+    overflow-wrap: break-word; /* Garante a quebra de palavras longas */
+    
+}
+
+/* Mensagem padrão */
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+/* Mensagem do usuário */
+.user-message {
+    align-self: flex-end; /* Alinha à direita */
+    background-color: #d1e7dd;
+    color: #0f5132;
+    padding: 10px;
+    border-radius: 10px 10px 0 10px; /* Balão arredondado */
+    max-width: 70%; /* Limita a largura da mensagem */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word; /* Garante quebra de palavras longas */
+    overflow-wrap: break-word;
+}
+
+/* Mensagem do bot */
+.bot-message {
+    align-self: flex-start; /* Alinha à esquerda */
+    background-color: #f8d7da;
+    color: #842029;
+    padding: 10px;
+    border-radius: 10px 10px 10px 0; /* Balão arredondado */
+    max-width: 90%; /* Limita a largura da mensagem */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word; /* Garante quebra de palavras longas */
+    overflow-wrap: break-word;
+}
+
+/* Timestamp */
+.timestamp {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 5px;
+    display: block;
 }
 
 /* Talk button */
 #talkButton {
-    padding: 8px 16px;
+    padding: 10px 20px;
     font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 15px; /* Espaço abaixo do botão */
+}
+
+#talkButton:hover {
+    background-color: #0056b3;
 }
 
 /* Status */
 #status {
     font-size: 1rem;
     color: #6c757d;
-}
-
-/* Spinner */
-#spinner {
-    margin-top: 10px;
+    margin-bottom: 10px; /* Espaço abaixo do status */
 }
 
 /* Response Image */
@@ -43,85 +123,87 @@ body {
     max-width: 100%;
     max-height: 250px;
     border-radius: 10px;
-}
-
-/* Chat container */
-#chat-container {
-    width: 100%;
-    max-width: 100%;
-    height: 200px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow-y: auto;
-    background-color: #ffffff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-}
-
-.user-message, .bot-message {
-    padding: 8px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-}
-
-.user-message {
-    background-color: #d1e7dd;
-    text-align: right;
-}
-
-.bot-message {
-    background-color: #f8d7da;
-}
-
-.timestamp {
+    margin-top: 10px;
     display: block;
-    font-size: 0.7rem;
-    margin-top: 3px;
 }
 
 /* Input container */
 .input-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-top: 15px;
+    width: 100%;
 }
 
 .input-group {
     width: 100%;
     max-width: 600px;
+    display: flex;
+    gap: 10px; /* Espaço entre os inputs e o botão */
 }
 
 #sendText {
+    flex: 1;
     font-size: 0.9rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 #sendButton {
     font-size: 0.9rem;
-    padding: 8px 16px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Mobile adjustments */
+#sendButton:hover {
+    background-color: #218838;
+}
+
+/* Ajustes para dispositivos móveis */
 @media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+
+    #localVideo {
+        max-height: 200px;
+    }
+
     #chat-container {
         height: 150px;
     }
 
     #talkButton {
         font-size: 0.9rem;
-        padding: 6px 12px;
-    }
-
-    .user-message, .bot-message {
-        font-size: 0.85rem;
+        padding: 8px 16px;
     }
 
     #status {
         font-size: 0.85rem;
     }
 
-    #sendText, #sendButton {
+    #sendText {
         font-size: 0.85rem;
-        padding: 6px;
+        padding: 8px;
+    }
+
+    #sendButton {
+        font-size: 0.85rem;
+        padding: 8px 16px;
+    }
+
+    .user-message, .bot-message {
+        font-size: 0.85rem;
+    }
+
+    .timestamp {
+        font-size: 0.75rem;
     }
 }
