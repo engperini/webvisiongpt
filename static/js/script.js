@@ -14,21 +14,21 @@ let isRecording = false;
 let playAudioResponse = true;
 
 // Conexão com o servidor via WebSocket
-const socket = new WebSocket('wss://engperini.ddns.net:5505/api/data/ws');
+const socket = new WebSocket('wss://engperini.ddns.net:5505/ws');
 
 socket.onopen = () => {
-    console.log('Conectado ao servidor via WebSocket (remoto)');
-    status.textContent = 'Conectado ao servidor via cliente remoto.';
+    console.log('Conectado ao servidor via WebSocket');
+    status.textContent = 'Conectado ao servidor.';
 };
 
 socket.onclose = () => {
-    console.log('Desconectado do servidor via WebSocket (remoto)');
-    status.textContent = 'Desconectado do servidor via cliente remoto.';
+    console.log('Desconectado do servidor');
+    status.textContent = 'Desconectado do servidor.';
 };
 
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    status.textContent = 'Resposta recebida do servidor via cliente remoto.';
+    status.textContent = 'Resposta recebida do servidor.';
 
     // Exibe a resposta do bot no chat
     console.log(data.text);
@@ -72,35 +72,47 @@ window.addEventListener('load', async () => {
     }
 });
 
-talkButton.onclick = async () => {
+// Iniciar gravação ao pressionar o botão (mousedown ou touchstart)
+const startRecording = async () => {
     if (!isRecording) {
-        // Iniciar Gravação
         try {
             recorder = new MediaRecorder(mediaStream);
             recorder.ondataavailable = event => {
                 audioChunks.push(event.data);
             };
-            recorder.onstop = () => {
-                console.log('Gravação de áudio finalizada.');
-                sendData(true);
-            };
             recorder.start();
-
             isRecording = true;
-            talkButton.textContent = 'Send';
             status.textContent = 'Recording...';
+            talkButton.textContent = 'Rec'; // Muda o texto do botão durante a gravação
         } catch (err) {
             console.error('Erro ao acessar dispositivos de mídia:', err);
             status.textContent = 'Erro ao acessar dispositivos de mídia.';
         }
-    } else {
-        // Parar Gravação
-        recorder.stop();
-        isRecording = false;
-        talkButton.textContent = 'Talk';
-        status.textContent = 'Recognizing ...';
     }
 };
+
+// Parar gravação ao soltar o botão (mouseup ou touchend)
+const stopRecording = () => {
+    if (isRecording) {
+        recorder.stop();
+        recorder.onstop = () => {
+            console.log('Gravação de áudio finalizada.');
+            sendData(true); // Envia os dados após parar a gravação
+        };
+        isRecording = false;
+        status.textContent = 'Recognizing...';
+        talkButton.textContent = 'Talk'; // Restaura o texto do botão após parar a gravação
+    }
+};
+
+// Eventos para desktop
+talkButton.addEventListener('mousedown', startRecording);
+talkButton.addEventListener('mouseup', stopRecording);
+talkButton.addEventListener('mouseleave', stopRecording);
+
+// Eventos para dispositivos móveis
+talkButton.addEventListener('touchstart', startRecording);
+talkButton.addEventListener('touchend', stopRecording);
 
 sendButton.onclick = () => {
     const text = sendText.value;
@@ -109,6 +121,18 @@ sendButton.onclick = () => {
         sendData(false); // false para não enviar áudio 
     }
 };
+
+// Adiciona evento de teclado para envio ao pressionar "Enter"
+sendText.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Previne o comportamento padrão (quebra de linha)
+        const text = sendText.value.trim();
+        if (text !== "") {
+            displayUserMessage(text);
+            sendData(false); // false para não enviar áudio
+        }
+    }
+});
 
 const sendData = async (sendAudio) => {
     // Cria um blob do áudio gravado
@@ -166,12 +190,18 @@ function sendDataToServer(data) {
     socket.send(JSON.stringify(data));
 }
 
+function scrollToBottom() {
+    const chatContainer = document.getElementById('chat-container');
+    chatContainer.scrollTop = chatContainer.scrollHeight; // Move o scroll para o final
+}
+
 function displayUserMessage(message) {
     const template = document.getElementById('user-message-template');
     const messageElement = template.content.cloneNode(true);
     messageElement.querySelector('.message-text').textContent = message;
     messageElement.querySelector('.timestamp').textContent = new Date().toLocaleTimeString();
     document.getElementById('chat-container').appendChild(messageElement);
+    scrollToBottom(); // Rolagem automática
 }
 
 function displayBotMessage(message) {
@@ -180,4 +210,6 @@ function displayBotMessage(message) {
     messageElement.querySelector('.message-text').textContent = message;
     messageElement.querySelector('.timestamp').textContent = new Date().toLocaleTimeString();
     document.getElementById('chat-container').appendChild(messageElement);
+    scrollToBottom(); // Rolagem automática
 }
+
