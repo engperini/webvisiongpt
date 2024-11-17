@@ -13,29 +13,26 @@ let recorder = null;
 let isRecording = false;
 let playAudioResponse = true;
 
-// Conexão com o servidor via Socket.IO
-const socket = io('https://engperini.ddns.net:5505/api/data', {
-     secure: true,
-     rejectUnauthorized: false
- });
+// Conexão com o servidor via WebSocket
+const socket = new WebSocket('wss://engperini.ddns.net:5505/api/data/ws');
 
+socket.onopen = () => {
+    console.log('Conectado ao servidor via WebSocket (remoto)');
+    status.textContent = 'Conectado ao servidor via cliente remoto.';
+};
 
-socket.on('connect', () => {
-    console.log('Conectado ao servidor via Socket.IO via client remoto');
-    status.textContent = 'Conectado ao servidor via client remoto.';
-});
+socket.onclose = () => {
+    console.log('Desconectado do servidor via WebSocket (remoto)');
+    status.textContent = 'Desconectado do servidor via cliente remoto.';
+};
 
-socket.on('disconnect', () => {
-    console.log('Desconectado do servidor via client remoto'); 
-    status.textContent = 'Desconectado do servidor via client remoto.';
-});
+socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    status.textContent = 'Resposta recebida do servidor via cliente remoto.';
 
-socket.on('response', (data) => {
-    status.textContent = 'Resposta recebida do servidor via client remoto.';
-    
     // Exibe a resposta do bot no chat
     console.log(data.text);
-    displayBotMessage(data.text); 
+    displayBotMessage(data.text);
 
     // Reproduz o áudio de resposta
     if (playAudioResponse && data.audio) {
@@ -57,12 +54,12 @@ socket.on('response', (data) => {
     } else {
         responseImage.style.display = 'none';
     }
-});
+};
 
-socket.on('error', (error) => {
+socket.onerror = (error) => {
     console.error('Erro recebido do servidor:', error);
     status.textContent = 'Erro recebido do servidor.';
-});
+};
 
 // Solicita permissão para câmera e microfone ao carregar a página
 window.addEventListener('load', async () => {
@@ -79,8 +76,6 @@ talkButton.onclick = async () => {
     if (!isRecording) {
         // Iniciar Gravação
         try {
-          
-
             recorder = new MediaRecorder(mediaStream);
             recorder.ondataavailable = event => {
                 audioChunks.push(event.data);
@@ -112,7 +107,6 @@ sendButton.onclick = () => {
     if (text.trim() !== "") {
         displayUserMessage(text);
         sendData(false); // false para não enviar áudio 
-        //sendText.value = ""; 
     }
 };
 
@@ -145,11 +139,11 @@ const sendData = async (sendAudio) => {
 
     // Prepara os dados para envio
     let data = {};
-    
+
     if (sendAudio) {
         // Converte o áudio em base64
         const reader = new FileReader();
-        reader.onload = function() {
+        reader.onload = function () {
             const base64Audio = reader.result; // Data URL do áudio
             data.audio = base64Audio;
             if (videoDataUrl) {
@@ -169,7 +163,7 @@ const sendData = async (sendAudio) => {
 };
 
 function sendDataToServer(data) {
-    socket.emit('handle_process_data', data);
+    socket.send(JSON.stringify(data));
 }
 
 function displayUserMessage(message) {
