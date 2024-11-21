@@ -1,4 +1,3 @@
-//via client remoto
 const talkButton = document.getElementById('talkButton');
 const localVideo = document.getElementById('localVideo');
 const sendButton = document.getElementById('sendButton');
@@ -7,11 +6,90 @@ const status = document.getElementById('status');
 const responseAudio = document.getElementById('responseAudio');
 const responseImage = document.getElementById('responseImage');
 
+// Mute button - no tts
+const muteButton = document.getElementById('muteButton');
+// Declare unmute icon variable
+const unmuteIcon = '<i class="fas fa-volume-up"></i>';
+// Declare mute icon variable
+const muteIcon = '<i class="fas fa-volume-mute"></i>';
+
+let isMuted = false;
+function muteFunction() {
+    // Toggle the muted state and the playAudioResponse
+    isMuted = !isMuted;
+    responseAudio.muted = isMuted;
+    playAudioResponse = !isMuted;
+
+    // Update the mute button icon accordingly
+    muteButton.innerHTML = isMuted ? muteIcon : unmuteIcon;
+}
+
+// Attach the mute function to both click and touchstart events
+muteButton.addEventListener('click', muteFunction);
+//muteButton.addEventListener('touchend', muteFunction);
+
+// Eventos para desktop
+muteButton.addEventListener('mousedown', muteFunction);
+//muteButton.addEventListener('mouseup', muteFunction);
+//muteButton.addEventListener('mouseleave', muteFunction);
+
+// Mic button - no stt
+const micButton = document.getElementById('micButton');
+// Declare unmic icon variable
+const unmicIcon = '<i class="fas fa-microphone"></i>';
+// Declare mic icon variable
+const micIcon = '<i class="fas fa-microphone-slash"></i>';
+
+let isMic = false;
+function micFunction() {
+    // Toggle the mic state and the talkbutton
+    isMic = !isMic;
+    talkButton.hidden = isMic;
+
+    // Update the mic button icon accordingly
+    micButton.innerHTML = isMic ? micIcon : unmicIcon;
+}
+
+// Attach the mic function to both click and touchstart events
+micButton.addEventListener('click', micFunction);
+//micButton.addEventListener('touchend', micFunction);
+
+// Eventos para desktop
+micButton.addEventListener('mousedown', micFunction);
+//micButton.addEventListener('mouseup', micFunction);
+//micButton.addEventListener('mouseleave', micFunction);
+
 let mediaStream = null;
 let audioChunks = [];
 let recorder = null;
 let isRecording = false;
 let playAudioResponse = true;
+
+// video button - no camera
+const vidButton = document.getElementById('vidButton');
+// Declare vid icon variable
+const unvidIcon = '<i class="fas fa-video"></i>';
+// Declare vid icon variable
+const vidIcon = '<i class="fas fa-video-slash"></i>';
+
+let isVid = false;
+function vidFunction() {
+    // Toggle the vid state and the localVideo
+    isVid = !isVid;
+    localVideo.hidden = isVid;
+
+    // Update the vid button icon accordingly
+    vidButton.innerHTML = isVid ? vidIcon : unvidIcon;
+}
+
+// Attach the vid function to both click and touchstart events
+vidButton.addEventListener('click', vidFunction);
+//vidButton.addEventListener('touchend', vidFunction);
+
+// Eventos para desktop
+vidButton.addEventListener('mousedown', vidFunction);
+//vidButton.addEventListener('mouseup', vidFunction);
+//vidButton.addEventListener('mouseleave', vidFunction);
 
 // Conexão com o servidor via WebSocket
 const socket = new WebSocket('wss://engperini.ddns.net:5505/ws');
@@ -30,6 +108,10 @@ socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     status.textContent = 'Resposta recebida do servidor.';
 
+    // Exibe a transcricao do user no chat
+    console.log(data.text_user);
+    displayUserMessage(data.text_user);
+    
     // Exibe a resposta do bot no chat
     console.log(data.text);
     displayBotMessage(data.text);
@@ -105,15 +187,21 @@ const stopRecording = () => {
     }
 };
 
+
+
 // Eventos para desktop
 talkButton.addEventListener('mousedown', startRecording);
+//talkButton.addEventListener('mousedown', stopRecording);
+
 talkButton.addEventListener('mouseup', stopRecording);
 talkButton.addEventListener('mouseleave', stopRecording);
 
 // Eventos para dispositivos móveis
 talkButton.addEventListener('touchstart', startRecording);
+//talkButton.addEventListener('touchstart', stopRecording);
 talkButton.addEventListener('touchend', stopRecording);
 
+//text msg
 sendButton.onclick = () => {
     const text = sendText.value;
     if (text.trim() !== "") {
@@ -134,6 +222,8 @@ sendText.addEventListener('keydown', (event) => {
     }
 });
 
+
+
 const sendData = async (sendAudio) => {
     // Cria um blob do áudio gravado
     let audioBlob = null;
@@ -144,7 +234,7 @@ const sendData = async (sendAudio) => {
 
     // Captura um frame do vídeo
     let videoDataUrl = null;
-    if (mediaStream && mediaStream.getVideoTracks().length > 0) {
+    if (!isVid && mediaStream && mediaStream.getVideoTracks().length > 0) {
         const videoTrack = mediaStream.getVideoTracks()[0];
         const imageCapture = new ImageCapture(videoTrack);
         try {
@@ -196,6 +286,9 @@ function scrollToBottom() {
 }
 
 function displayUserMessage(message) {
+    if (!message){
+        return;
+    }
     const template = document.getElementById('user-message-template');
     const messageElement = template.content.cloneNode(true);
     messageElement.querySelector('.message-text').textContent = message;
@@ -205,6 +298,9 @@ function displayUserMessage(message) {
 }
 
 function displayBotMessage(message) {
+    if (!message){
+        return;
+    }
     const template = document.getElementById('bot-message-template');
     const messageElement = template.content.cloneNode(true);
     messageElement.querySelector('.message-text').textContent = message;
@@ -212,4 +308,3 @@ function displayBotMessage(message) {
     document.getElementById('chat-container').appendChild(messageElement);
     scrollToBottom(); // Rolagem automática
 }
-
