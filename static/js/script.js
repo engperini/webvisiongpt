@@ -1,3 +1,45 @@
+async function initializeFirebase() {
+    try {
+        const response = await fetch('/api/firebase-config');
+        const config = await response.json();
+        firebase.initializeApp(config);
+        console.log("Firebase inicializado");
+
+        // Verifica se o usuário está autenticado
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                console.log("Usuário autenticado");
+                document.body.style.display = "block"; // Mostra o app
+            } else {
+                console.log("Usuário não autenticado. Redirecionando...");
+                window.location.href = "/";
+            }
+        });
+    } catch (error) {
+        console.error("Erro ao inicializar o Firebase:", error);
+        window.location.href = "/"; // Redireciona para login em caso de erro
+    }
+}
+
+// Esconde o conteúdo do app até a inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.style.display = "none";
+    initializeFirebase();
+});
+
+function logout() {
+    firebase.auth().signOut().then(() => {
+        console.log("Usuário desconectado.");
+        window.location.href = "/"; // Redireciona para login
+    }).catch(error => {
+        console.error("Erro ao desconectar:", error);
+    });
+}
+
+
+
+
+const logoutButton = document.getElementById('logoutButton')
 const talkButton = document.getElementById('talkButton');
 const localVideo = document.getElementById('localVideo');
 const sendButton = document.getElementById('sendButton');
@@ -5,6 +47,15 @@ const sendText = document.getElementById('sendText');
 const status = document.getElementById('status');
 const responseAudio = document.getElementById('responseAudio');
 const responseImage = document.getElementById('responseImage');
+
+// Attach the logout function to both click and touchstart events
+logoutButton.addEventListener('click', logout);
+//micButton.addEventListener('touchend', micFunction);
+
+// Eventos para desktop
+logoutButton.addEventListener('mousedown', logout);
+//micButton.addEventListener('mouseup', micFunction);
+//micButton.addEventListener('mouseleave', micFunction);
 
 // Mute button - no tts
 const muteButton = document.getElementById('muteButton');
