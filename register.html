@@ -1,99 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aivision</title>
-  <style>
-    
-    body {
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #f0f0f0;
-    }
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aivision</title>
+    <style>
+      
+      body {
+        font-family: sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f0f0;
+      }
 
-    .container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
 
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      width: 100%;
-    }
+      button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        width: 100%;
+      }
 
-    button:hover {
-      opacity: 0.8;
-    }
+      button:hover {
+        opacity: 0.8;
+      }
 
-    .error {
-      color: red;
-      margin-bottom: 10px;
-    }
+      .error {
+        color: red;
+        margin-bottom: 10px;
+      }
 
-    .toggle-form {
-      text-align: center;
-      margin-top: 20px;
-    }
+      .toggle-form {
+        text-align: center;
+        margin-top: 20px;
+      }
 
-    .toggle-form a {
-      color: #4CAF50;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div id="login-form">
-      <h2>Login</h2>
-      <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Password">
-      <button onclick="login()">Login</button>
-      <div id="login-error" class="error"></div>
-      <div class="toggle-form">
-        Don't have an account? <a href="#" onclick="toggleForm('register')">Register</a>
+      .toggle-form a {
+        color: #4CAF50;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="login-form">
+        <h2>Login</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div id="login-error" class="error"></div>
+        <div class="toggle-form">
+          Don't have an account? <a href="#" onclick="toggleForm('register')">Register</a>
+        </div>
+      </div>
+
+      <div id="register-form" style="display: none;">
+        <h2>Register</h2>
+        <input type="email" id="register-email" placeholder="Email">
+        <input type="password" id="register-password" placeholder="Password">
+        <button onclick="register()">Register</button>
+        <div id="register-error" class="error"></div>
+        <div class="toggle-form">
+          Already have an account? <a href="#" onclick="toggleForm('login')">Login</a>
+        </div>
       </div>
     </div>
 
-    <div id="register-form" style="display: none;">
-      <h2>Register</h2>
-      <input type="email" id="register-email" placeholder="Email">
-      <input type="password" id="register-password" placeholder="Password">
-      <button onclick="register()">Register</button>
-      <div id="register-error" class="error"></div>
-      <div class="toggle-form">
-        Already have an account? <a href="#" onclick="toggleForm('login')">Login</a>
-      </div>
-    </div>
-  </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="static/js/register.js"></script>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="static/js/register.js"></script>
-
-  </body>
-</html>
+    </body>
+  </html>
