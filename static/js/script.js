@@ -143,7 +143,7 @@ vidButton.addEventListener('mousedown', vidFunction);
 //vidButton.addEventListener('mouseleave', vidFunction);
 
 // Conexão com o servidor via WebSocket
-const socket = new WebSocket('wss://engperini.ddns.net:5505/ws');
+const socket = new WebSocket('wss://engperini.ddns.net:5505/api/data/ws');
 
 socket.onopen = () => {
     console.log('Conectado ao servidor via WebSocket');
