@@ -12,12 +12,12 @@ async function initializeFirebase() {
                 document.body.style.display = "block"; // Mostra o app
             } else {
                 console.log("Usuário não autenticado. Redirecionando...");
-                window.location.href = "/";
+                window.location.href = "https://engperini.github.io/webvisiongpt/index.html";
             }
         });
     } catch (error) {
         console.error("Erro ao inicializar o Firebase:", error);
-        window.location.href = "/"; // Redireciona para login em caso de erro
+        window.location.href = "https://engperini.github.io/webvisiongpt/index.html"; // Redireciona para login em caso de erro
     }
 }
 
