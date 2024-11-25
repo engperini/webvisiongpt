@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function logout() {
     firebase.auth().signOut().then(() => {
         console.log("Usuário desconectado.");
-        window.location.href = "/webvisiongpt/"; // Redireciona para login
+        window.location.href = "/webvisiongpt/index.html"; // Redireciona para login
     }).catch(error => {
         console.error("Erro ao desconectar:", error);
     });
