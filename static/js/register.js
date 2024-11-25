@@ -29,7 +29,7 @@ function login() {
         const user = userCredential.user;
         // Redirect to app or display welcome message
         
-        window.location.href = "https://engperini.ddns.net:5505/app"; 
+        window.location.href = "templates/index.html"; 
     })
     .catch(error => {
         loginError.textContent = error.message;
@@ -47,7 +47,7 @@ function register() {
         const user = userCredential.user;
         // Redirect to app or display welcome message
         
-        window.location.href = "https://engperini.ddns.net:5505/app";
+        window.location.href = "templates/index.html";
     })
     .catch(error => {
         registerError.textContent = error.message;
