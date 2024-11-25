@@ -47,7 +47,7 @@ function register() {
         const user = userCredential.user;
         // Redirect to app or display welcome message
         
-        window.location.href = "/app"; 
+        window.location.href = "https://engperini.ddns.net:5505/app";
     })
     .catch(error => {
         registerError.textContent = error.message;
