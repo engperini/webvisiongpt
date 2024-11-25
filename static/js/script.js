@@ -1,6 +1,6 @@
 async function initializeFirebase() {
     try {
-        const response = await fetch('/api/firebase-config');
+        const response = await fetch('https://engperini.ddns.net:5505/api/firebase-config');
         const config = await response.json();
         firebase.initializeApp(config);
         console.log("Firebase inicializado");
